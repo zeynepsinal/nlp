@@ -1,102 +1,201 @@
-# BERTurk Kampanya Sınıflandırma Deneyi
+# Katılım Bankacılığı NLP Analiz Sistemi
 
-Amaç:
-TF-IDF + Logistic Regression baseline ile BERTurk modelini AYNI gerçek test setinde karşılaştırmak.
+Bu proje, katılım bankacılığı kampanya metinlerini Türkçe doğal dil işleme yöntemleriyle analiz etmek amacıyla geliştirilmiştir.
 
-Model:
-`dbmdz/bert-base-turkish-cased`
+Sistem şu anda:
 
-## 0. Gerçek CSV'yi ekle
+* **BERTurk** ile kampanya kategorisini sınıflandırır.
+* **Regex tabanlı bilgi çıkarımı** ile oran, tutar, vade, tarih ve benzeri alanları çıkarır.
+* **Katılım bankacılığı ontolojisi** ile terminolojiyi normalize eder.
+* **FastAPI** üzerinden modeli servis eder.
+* **HTML/CSS/JavaScript arayüzü** üzerinden analiz sonuçlarını gösterir.
+* TF-IDF + Logistic Regression baseline modeli ile BERTurk sonuçlarını karşılaştırır.
 
-Mevcut 374 örnekli ana veri setini şu dosya adıyla koy:
-
-```text
-data/kampanyalar.csv
-```
-
-Paketin içinde `data/synthetic.csv` zaten bulunuyor.
-
-Ana CSV'nin minimum sütunları:
+## NLP Pipeline
 
 ```text
-metin,kategori
+Kampanya Metni
+      ↓
+BERTurk
+      ↓
+Kategori Sınıflandırması
+      ↓
+Regex Tabanlı Bilgi Çıkarımı
+      ↓
+Katılım Bankacılığı Ontolojisi
+      ↓
+Yapılandırılmış JSON
+      ↓
+Web Arayüzü
 ```
 
-Eğer `kaynak` sütunun varsa script bunu kullanır.
-`kaynak=synthetic` olan satırlar gerçek test setine alınmaz.
+Desteklenen kategoriler:
 
-## 1. Kütüphaneler
+```text
+konut_finansmani
+tasit_finansmani
+ihtiyac_finansmani
+kredi_karti
+katilma_hesabi
+yatirim
+diger
+```
 
-Ana klasörde:
+## Model Sonuçları
+
+| Model                        |   Accuracy |   Macro F1 |
+| ---------------------------- | ---------: | ---------: |
+| TF-IDF + Logistic Regression |     0.8333 |     0.8214 |
+| **BERTurk**                  | **0.8889** | **0.8857** |
+
+BERTurk, baseline modele göre Accuracy’de **+0.0556**, Macro F1’da **+0.0643** iyileşme sağlamıştır.
+
+## Git LFS
+
+Model dosyaları büyük olduğu için projede **Git LFS** kullanılmaktadır.
+
+Özellikle:
+
+```text
+*.safetensors
+*.pt
+*.pth
+```
+
+dosyaları LFS ile takip edilir.
+
+Projeyi klonlamadan önce:
+
+```bash
+git lfs install
+```
+
+Ardından:
+
+```bash
+git clone https://github.com/zeynepsinal/nlp.git
+cd nlp
+git lfs pull
+```
+
+LFS dosyalarını kontrol etmek için:
+
+```bash
+git lfs ls-files
+```
+
+## Kurulum
+
+Gerekli paketleri kurun:
 
 ```powershell
 py -m pip install -r requirements_bert.txt
 ```
 
-## 2. Veriyi ayır
+Pip bulunamazsa:
+
+```powershell
+py -m ensurepip --upgrade
+py -m pip install --upgrade pip
+```
+
+## Uygulamayı Çalıştırma
+
+Önce BERTurk API’yi başlatın:
+
+```powershell
+py -m uvicorn api_berturk:app --reload --port 8000
+```
+
+Başarılı olduğunda:
+
+```text
+Application startup complete.
+Uvicorn running on http://127.0.0.1:8000
+```
+
+görülür.
+
+API kontrolü:
+
+```text
+http://127.0.0.1:8000
+```
+
+API dokümantasyonu:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+Ardından:
+
+```text
+index_berturk.html
+```
+
+dosyasını açın.
+
+Sonuç ekranında:
+
+```text
+Kategori Kaynağı:
+Transformer — BERTurk
+```
+
+görünüyorsa model başarıyla çalışmaktadır.
+
+## Modeli Yeniden Eğitme
 
 ```powershell
 py prepare_data.py
-```
-
-Bu adım:
-- gerçek veriden train / validation / test ayırır
-- sentetik veriyi yalnızca train'e ekler
-- test setini sadece gerçek veriden oluşturur
-
-## 3. Aynı split'te TF-IDF baseline
-
-```powershell
 py train_tfidf_same_split.py
-```
-
-## 4. BERTurk eğit
-
-```powershell
 py train_berturk.py
 ```
 
-İlk çalıştırmada BERTurk modeli internetten indirilir.
-Model dosyaları yüzlerce MB olabilir.
-
-GPU varsa otomatik kullanılır.
-CPU'da da çalışır ancak daha yavaş olabilir.
-
-## 5. Karşılaştır
+Model karşılaştırması:
 
 ```powershell
 py compare_results.py
 ```
 
-Böylece iki model AYNI gerçek test setinde karşılaştırılır.
-
-## 6. BERTurk'u manuel test et
+Terminalden tahmin:
 
 ```powershell
 py predict_berturk.py
 ```
 
-## Dosyalar
+## Roadmap
+
+Tamamlananlar:
+
+* [x] TF-IDF + Logistic Regression baseline
+* [x] BERTurk sınıflandırması
+* [x] Regex bilgi çıkarımı
+* [x] Katılım bankacılığı ontolojisi
+* [x] FastAPI
+* [x] Web arayüzü
+* [x] Model karşılaştırması
+* [x] Git LFS
+
+Planlananlar:
+
+* [ ] Banka sitelerinden canlı kampanya verisi çekme
+* [ ] Scraper / crawler
+* [ ] Canlı verinin NLP pipeline’ına otomatik aktarılması
+* [ ] NER tabanlı bilgi çıkarımı
+* [ ] Veritabanı
+* [ ] Banka kampanyalarının karşılaştırılması
+* [ ] Kullanıcı önceliklerine göre avantaj skoru
+* [ ] Chatbot
+* [ ] Otomatik veri güncelleme
+* [ ] Docker deployment
+
+## Repository
 
 ```text
-data/
-  kampanyalar.csv      <- senin gerçek/ana verin
-  synthetic.csv        <- 140 sentetik örnek
-  train.csv
-  validation.csv
-  test_real.csv
-
-models/
-  tfidf_augmented.joblib
-  berturk_campaign_classifier/
-
-results/
-  tfidf_metrics.json
-  berturk_metrics.json
+https://github.com/zeynepsinal/nlp
 ```
 
-## Neden test sadece gerçek?
-
-Sentetik metinleri test setine koyarsak modelin gerçek banka metinlerinde ne kadar iyi
-çalıştığını güvenilir biçimde ölçemeyiz. Sentetik augmentation yalnızca eğitim
-performansını desteklemek için kullanılır.
+> Proje aktif olarak geliştirilmektedir. Canlı veri çekme, karşılaştırma, NER ve chatbot modülleri sonraki aşamalarda eklenecektir.
+> ::: 
