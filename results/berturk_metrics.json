@@ -1,0 +1,148 @@
+{
+  "model": "dbmdz/bert-base-turkish-cased",
+  "test_source": "real_only",
+  "accuracy": 0.8888888888888888,
+  "macro_f1": 0.8857142857142857,
+  "trainer_test_metrics": {
+    "eval_loss": 1.0413800477981567,
+    "eval_accuracy": 0.8888888888888888,
+    "eval_f1_macro": 0.8857142857142857,
+    "eval_precision_macro": 0.9166666666666666,
+    "eval_recall_macro": 0.8888888888888888,
+    "eval_runtime": 0.5011,
+    "eval_samples_per_second": 35.924,
+    "eval_steps_per_second": 3.992,
+    "epoch": 4.0
+  },
+  "labels": [
+    "diger",
+    "ihtiyac_finansmani",
+    "katilma_hesabi",
+    "konut_finansmani",
+    "kredi_karti",
+    "tasit_finansmani",
+    "yatirim"
+  ],
+  "classification_report": {
+    "diger": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "ihtiyac_finansmani": {
+      "precision": 0.75,
+      "recall": 1.0,
+      "f1-score": 0.8571428571428571,
+      "support": 3.0
+    },
+    "katilma_hesabi": {
+      "precision": 0.75,
+      "recall": 1.0,
+      "f1-score": 0.8571428571428571,
+      "support": 3.0
+    },
+    "konut_finansmani": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 3.0
+    },
+    "kredi_karti": {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1-score": 0.8,
+      "support": 3.0
+    },
+    "tasit_finansmani": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 3.0
+    },
+    "yatirim": {
+      "precision": 1.0,
+      "recall": 0.6666666666666666,
+      "f1-score": 0.8,
+      "support": 3.0
+    },
+    "accuracy": 0.8888888888888888,
+    "macro avg": {
+      "precision": 0.7857142857142857,
+      "recall": 0.7619047619047619,
+      "f1-score": 0.7591836734693878,
+      "support": 18.0
+    },
+    "weighted avg": {
+      "precision": 0.9166666666666666,
+      "recall": 0.8888888888888888,
+      "f1-score": 0.8857142857142857,
+      "support": 18.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      3,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      3,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      3,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      0,
+      2,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      3,
+      0
+    ],
+    [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      2
+    ]
+  ]
+}

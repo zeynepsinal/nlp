@@ -1,0 +1,33 @@
+{
+  "seed": 42,
+  "train_total": 201,
+  "train_real": 61,
+  "train_synthetic": 140,
+  "validation_real": 11,
+  "test_real": 18,
+  "train_class_counts": {
+    "ihtiyac_finansmani": 41,
+    "tasit_finansmani": 30,
+    "yatirim": 30,
+    "konut_finansmani": 30,
+    "diger": 30,
+    "katilma_hesabi": 30,
+    "kredi_karti": 10
+  },
+  "validation_class_counts": {
+    "kredi_karti": 2,
+    "konut_finansmani": 2,
+    "tasit_finansmani": 2,
+    "yatirim": 2,
+    "katilma_hesabi": 2,
+    "ihtiyac_finansmani": 1
+  },
+  "test_class_counts": {
+    "yatirim": 3,
+    "ihtiyac_finansmani": 3,
+    "konut_finansmani": 3,
+    "kredi_karti": 3,
+    "tasit_finansmani": 3,
+    "katilma_hesabi": 3
+  }
+}

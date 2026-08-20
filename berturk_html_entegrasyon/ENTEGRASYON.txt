@@ -1,0 +1,38 @@
+BERTurk HTML entegrasyonu
+
+1) Eğitilmiş BERTurk modelinin şu klasörde olduğundan emin ol:
+   models/berturk_campaign_classifier/
+
+2) API'yi başlat:
+   py -m uvicorn api_berturk:app --reload --port 8000
+
+   veya:
+   BERTurk_API_Baslat.bat dosyasına çift tıkla.
+
+3) Tarayıcıda kontrol et:
+   http://127.0.0.1:8000
+
+4) index_berturk.html dosyasını aç.
+
+5) Sonuç ekranında:
+   Kategori Kaynağı = Transformer — BERTurk
+   görünüyorsa BERTurk sınıflandırması aktif.
+
+BERTurk:
+- kampanya kategorisini belirler.
+
+Regex + ontoloji:
+- oran
+- tutar
+- vade
+- tarih
+- banka
+- müşteri türü
+- kanal
+gibi yapılandırılmış alanları çıkarmaya devam eder.
+
+Türkçe tarih desteği:
+- 15.04.2026
+- 15/04/2026
+- 15 Nisan 2026
+- 30 Kasım 2026
